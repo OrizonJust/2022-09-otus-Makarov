@@ -28,6 +28,5 @@ public class BankAccount {
         } else {
             throw new RuntimeException("Account is already blocked!");
         }
-
     }
 }

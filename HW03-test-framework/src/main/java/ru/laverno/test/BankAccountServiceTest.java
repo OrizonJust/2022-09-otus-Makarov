@@ -8,7 +8,7 @@ import ru.laverno.service.BankAccountService;
 
 import java.util.UUID;
 
-public class AddMoneyToAccountTest {
+public class BankAccountServiceTest {
 
     private BankAccount bankAccount;
 
@@ -16,8 +16,13 @@ public class AddMoneyToAccountTest {
 
     @Before
     public void setAccount() {
-        this.bankAccount = new BankAccount(UUID.randomUUID(), "Max Makarov", 10000D);
+        this.bankAccount = new BankAccount(UUID.randomUUID(), "Max Makarov", 100000D);
         this.bankAccountService = new BankAccountService();
+    }
+
+    @After
+    public void printSomeInformation() {
+        System.out.println(bankAccount);
     }
 
     @Test
@@ -31,8 +36,16 @@ public class AddMoneyToAccountTest {
             throw new RuntimeException("Test failed!");
     }
 
-    @After
-    public void setNewAccount() {
-        this.bankAccount = new BankAccount(UUID.randomUUID(), "Petr Popov", 1345D);
+    @Test
+    public void blockAccount() {
+        if (!bankAccountService.blockAccount(this.bankAccount) && !bankAccount.isBlocked()) {
+            throw new RuntimeException("Test Failed");
+        }
+    }
+
+    @Test
+    public void sendMoneyFromAccountFailed() {
+        var sentMoney = 15000D;
+        bankAccountService.sendMoneyFromAccount(this.bankAccount, sentMoney);
     }
 }
