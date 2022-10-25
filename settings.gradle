@@ -1,3 +1,5 @@
 rootProject.name = 'otusJavaProffesional'
 include 'HW01-gradle'
 include 'HW02-generics-and-collections'
+
+include 'HW04-heap-experiment'
