@@ -16,7 +16,7 @@ public class BankAccountServiceTest {
 
     @Before
     public void setAccount() {
-        this.bankAccount = new BankAccount(UUID.randomUUID(), "Max Makarov", 100000D);
+        this.bankAccount = new BankAccount(UUID.randomUUID(), "Max Makarov", 10000D);
         this.bankAccountService = new BankAccountService();
     }
 

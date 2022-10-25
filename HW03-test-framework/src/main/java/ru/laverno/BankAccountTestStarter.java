@@ -31,6 +31,8 @@ public class BankAccountTestStarter {
         Method beforeMethod = null;
         List<Method> testMethods = new ArrayList<>();
         Method afterMethod = null;
+        int passed = 0;
+        int failed = 0;
 
         for (Method method : methods) {
             if (method.isAnnotationPresent(Before.class)) {
@@ -48,28 +50,40 @@ public class BankAccountTestStarter {
             for (Method testMethod : testMethods) {
                 var instance = clazz.getConstructor().newInstance();
                 if (beforeMethod != null) {
-                    startTestMethod(instance, beforeMethod);
+                    if (startTestMethod(instance, beforeMethod)) {
+                        passed++;
+                    } else {
+                        failed++;
+                    }
                 }
-                startTestMethod(instance, testMethod);
+                if (startTestMethod(instance, testMethod)) {
+                    passed++;
+                } else {
+                    failed++;
+                }
                 if (afterMethod != null) {
-                    startTestMethod(instance, afterMethod);
+                    if (startTestMethod(instance, afterMethod)) {
+                        passed++;
+                    } else {
+                        failed++;
+                    }
                 }
             }
         }
+
+        System.out.println("TESTS PASSED: " + passed + "; TESTS FAILED: " + failed);
     }
 
-    private static void startTestMethod(Object obj, Method method) {
-        var testMethodIsCrashed = false;
-
+    private static boolean startTestMethod(Object obj, Method method) {
         try {
             method.invoke(obj);
         } catch (Exception ex) {
-            System.out.println(method.getName() + " is FAILED!");
-            testMethodIsCrashed = true;
+            System.out.println(method.getName() + " FAILED!");
+            return false;
         }
 
-        if (!testMethodIsCrashed) {
-            System.out.println(method.getName() + " FINISHED!");
-        }
+
+        System.out.println(method.getName() + " PASSED!");
+        return true;
     }
 }
