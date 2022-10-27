@@ -28,8 +28,8 @@ public class BankAccountTestStarter {
 
     private static void startTestClass(Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         var methods = clazz.getDeclaredMethods();
-        Method beforeMethod = null;
         List<Method> testMethods = new ArrayList<>();
+        Method beforeMethod = null;
         Method afterMethod = null;
         int passed = 0;
         int failed = 0;
@@ -38,9 +38,11 @@ public class BankAccountTestStarter {
             if (method.isAnnotationPresent(Before.class)) {
                 beforeMethod = method;
             }
+
             if (method.isAnnotationPresent(Test.class)) {
                 testMethods.add(method);
             }
+
             if (method.isAnnotationPresent(After.class)) {
                 afterMethod = method;
             }
@@ -49,24 +51,20 @@ public class BankAccountTestStarter {
         if (!testMethods.isEmpty()) {
             for (Method testMethod : testMethods) {
                 var instance = clazz.getConstructor().newInstance();
-                if (beforeMethod != null) {
-                    if (startTestMethod(instance, beforeMethod)) {
-                        passed++;
-                    } else {
-                        failed++;
-                    }
-                }
+
+                var isFailed = beforeMethod != null && startTestMethod(instance, beforeMethod);
+
                 if (startTestMethod(instance, testMethod)) {
-                    passed++;
-                } else {
-                    failed++;
+                    isFailed = true;
                 }
-                if (afterMethod != null) {
-                    if (startTestMethod(instance, afterMethod)) {
-                        passed++;
-                    } else {
-                        failed++;
-                    }
+                if (afterMethod != null && startTestMethod(instance, afterMethod)) {
+                    isFailed = true;
+                }
+
+                if (isFailed) {
+                    failed++;
+                } else {
+                    passed++;
                 }
             }
         }
@@ -79,11 +77,11 @@ public class BankAccountTestStarter {
             method.invoke(obj);
         } catch (Exception ex) {
             System.out.println(method.getName() + " FAILED!");
-            return false;
+            return true;
         }
 
 
         System.out.println(method.getName() + " PASSED!");
-        return true;
+        return false;
     }
 }
