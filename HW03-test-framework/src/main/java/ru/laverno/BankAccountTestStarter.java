@@ -53,6 +53,10 @@ public class BankAccountTestStarter {
                 var instance = clazz.getConstructor().newInstance();
 
                 var isFailed = beforeMethod != null && startTestMethod(instance, beforeMethod);
+                if (isFailed) {
+                    failed++;
+                    continue;
+                }
 
                 if (startTestMethod(instance, testMethod)) {
                     isFailed = true;
