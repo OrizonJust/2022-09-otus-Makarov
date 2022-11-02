@@ -26,8 +26,9 @@ public class LoggingProxy {
             for (Method m : myClass.getClass().getDeclaredMethods()) {
                 if (m.isAnnotationPresent(Log.class) &&
                         m.getName().equals(method.getName()) &&
-                        Arrays.equals(m.getParameterTypes(), method.getParameterTypes()))
+                        Arrays.equals(m.getParameterTypes(), method.getParameterTypes())) {
                     System.out.println("Executed method: " + method.getName() + ", Params: " + Arrays.toString(args));
+                }
             }
 
             return method.invoke(myClass, args);
