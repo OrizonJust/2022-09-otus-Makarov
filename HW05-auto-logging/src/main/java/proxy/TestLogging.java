@@ -1,3 +1,7 @@
+package proxy;
+
+import annotation.Log;
+
 public class TestLogging implements TestLoggingInterface {
 
     @Log
