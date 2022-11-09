@@ -1,4 +1,4 @@
-package proxy;
+package service;
 
 public interface TestLoggingInterface {
 

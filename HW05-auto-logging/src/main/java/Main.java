@@ -1,4 +1,6 @@
-package proxy;
+import proxy.LoggingProxy;
+import service.TestLogging;
+import service.TestLoggingInterface;
 
 public class Main {
 

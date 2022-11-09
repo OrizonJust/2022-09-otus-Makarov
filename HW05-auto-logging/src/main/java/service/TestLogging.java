@@ -1,4 +1,4 @@
-package proxy;
+package service;
 
 import annotation.Log;
 
@@ -20,6 +20,4 @@ public class TestLogging implements TestLoggingInterface {
     public void calculation(int param1, int param2, int param3) {
         System.out.println(param1 + param2 + param3);
     }
-
-
 }
